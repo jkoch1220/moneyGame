@@ -6,14 +6,16 @@ import FileUploadButton from "./uploadButton/fileUploadButton/FileUploadButton";
 import {toText} from "./common/translator/toText";
 
 
-interface TableType{
-	description: string[]
-	amount: string[]
-	category: string[]
-	transaction: string[]
-	metaCategory: string[]
-	date: string[]
+interface TableTypeInterface{
+	description: string
+	amount: string
+	category: string
+	transaction: string
+	metaCategory: string
+	date: string
 }
+
+type TableType = "description" | "amount" | "category" | "transaction" | "metaCategory" | "date"
 
 function App() {
 	const [textFromFile, setTextFromFile] = useState<string|undefined>();
@@ -25,18 +27,19 @@ function App() {
 
 	useEffect(()=>{
 		if(textFromFile){
-			console.log("PARSEDATA", parseData(textFromFile).toString())
+			console.log("PARSEDATA", parseData(textFromFile))
 		}
 	}, [textFromFile])
 
 
 
 	const parseData = (data: string) => {
-		let parsedData: TableType[]
+		let parsedData: TableTypeInterface[] = []
 		let rows: string[] = []
-		let dataSet = ""
 		let row = ""
+		let dataSets: string[]
 
+		//Iterate csv and parse Rows
 		for (let i = 0; i < data.length;) {
 			if(data.substr(i, data.indexOf(';')) != ""){
 				row = data.substr(i, data.indexOf(';'));
@@ -45,19 +48,14 @@ function App() {
 			}
 		}
 
-		for (let i = 0; i < rows.length; i++) {
-			for (let j = 0; j < rows[i].length; j++) {
-				if(rows[i].substr(i, rows[i].indexOf(',')) != "") {
-					console.log("ROWS I", rows[i])
-					dataSet = rows[i].substr(j, rows[i].indexOf(','));
-					console.log("DATASET", dataSet)
-					j += dataSet.length
-					console.log("J", j)
-				}
+		for (let i = 1; i < rows.length; i++) {
+			dataSets = rows[i].split(",")
+			const filledTable: TableTypeInterface = {
+				amount: dataSets[0], category: dataSets[1], date:dataSets[2], description: dataSets[3], metaCategory:dataSets[4], transaction: dataSets[5]
 			}
+			parsedData.push(filledTable)
 		}
-
-			return "NUTTENSOHN"
+			return parsedData
 	}
 
 
