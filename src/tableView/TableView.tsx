@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import {ParsedDataForm} from "../types";
 
 const createData = (
   description: string,
@@ -61,7 +62,11 @@ const rows = [
   ),
 ];
 
-const TableView = () => {
+interface TableViewForm{
+  data: ParsedDataForm[]
+}
+
+const TableView = (props: TableViewForm) => {
   return (
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -76,7 +81,7 @@ const TableView = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {props.data.map((row) => (
               <TableRow
                 key={row.description}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

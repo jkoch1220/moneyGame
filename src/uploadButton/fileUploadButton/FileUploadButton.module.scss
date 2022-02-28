@@ -1,13 +1,21 @@
-@import '../../common/styles/dialogs';
+.uploadButtonWrapper {
+  .fileUploadButton {
 
-.fileUploadButton {
-  @include dialog-button('green' 500, 'black');
-  margin: 16px;
-  width: 220px;
-  height: 40px;
-  border-radius: var(--radius-sm);
+    .uploadButton{
+      background: #39af39;
+      margin: 16px;
+      width: 220px;
+      height: 40px;
+      border-radius: 4px;
 
-  .uploadButtonLabel {
-    @include dialog-button-label('white');
+    }
+    .uploadButton:hover{
+        box-shadow: 2px 4px #e8e8e8;
+        background: #35a435;
+    }
+
+    .uploadButtonLabel {
+      color: white;
+    }
   }
 }
