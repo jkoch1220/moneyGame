@@ -19,49 +19,6 @@ const createData = (
   return { description, amount, category, transaction, metaCategory, date };
 };
 
-const rows = [
-  createData(
-    "MC DONALDS FIL. 1359",
-    3.38,
-    "Essen",
-    "Amex",
-    "Ernährung",
-    new Date(2022, 1, 27).toDateString()
-  ),
-  createData(
-    "MC DONALDS FIL. 1359",
-    8.99,
-    "Essen",
-    "Amex",
-    "Ernährung",
-    new Date(2022, 1, 27).toDateString()
-  ),
-  createData(
-    "PAYPAL *DHL OL 2284333112",
-    4.99,
-    "Geschäftlich",
-    "Amex",
-    "Geschäftlich",
-    new Date(2022, 1, 27).toDateString()
-  ),
-  createData(
-    "PAYPAL *THOMAS_MUE-MUEL 4029357733",
-    4.3,
-    "Geschäftlich",
-    "Amex",
-    "Geschäftlich",
-    new Date(2022, 1, 27).toDateString()
-  ),
-  createData(
-    "REWE FICKEIS KOENIGSWINTER-O",
-    39.99,
-    "Essen",
-    "Amex",
-    "Ernährung",
-    new Date(2022, 1, 27).toDateString()
-  ),
-];
-
 interface TableViewForm{
   data: ParsedDataForm[]
 }
