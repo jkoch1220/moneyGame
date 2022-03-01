@@ -6,11 +6,14 @@ import FileUploadButton from "./uploadButton/fileUploadButton/FileUploadButton";
 import { toText } from "./common/translator/toText";
 import parseData from "./common/utils/parseData";
 import parseBarChart from "./common/utils/parseBarChart";
-import { ParsedDataForm } from "./types";
+import { Page, ParsedDataForm } from "./types";
+import ResponsiveAppBar from "./appBar/ResponsiveAppBar";
 
 function App() {
   const [textFromFile, setTextFromFile] = useState<string | undefined>();
   const [parsedData, setParsedData] = useState<ParsedDataForm[] | undefined>();
+
+  const [page, setPage] = useState<Page>("Upload");
 
   const handleImageFileSelection = async (selectorFile: File) => {
     if (selectorFile) {
@@ -24,28 +27,49 @@ function App() {
     }
   }, [textFromFile]);
 
+  const body = () => {
+    switch (page) {
+      case "Upload":
+        return (
+          <FileUploadButton
+            name={"UPLOAD CSV"}
+            onChange={handleImageFileSelection}
+            text={"Upload CSV File"}
+          />
+        );
+      case "Tabellen":
+        return (
+          <div>
+            <h1>Overview Table</h1>
+            {textFromFile ? (
+              <TableView data={parseData(textFromFile)} />
+            ) : (
+              "Upload CSV"
+            )}
+          </div>
+        );
+      case "Kategorien":
+        return (
+          <div>
+            <h1>Overview BarChart</h1>
+            {parsedData ? (
+              <BarChart data={parseBarChart(parsedData)} />
+            ) : (
+              "Upload CSV"
+            )}
+          </div>
+        );
+      case "Meta-Kategorien":
+        return <div>In Arbeit</div>;
+      case "Zahlungsmittel":
+        return <div>In Arbeit</div>;
+    }
+  };
+
   return (
     <div className="App">
-      <header>
-        <h1>MONEYGAME</h1>
-        <FileUploadButton
-          name={"UPLOAD CSV"}
-          onChange={handleImageFileSelection}
-          text={"Upload CSV File"}
-        />
-        <h1>Overview BarChart</h1>
-        {parsedData ? (
-          <BarChart data={parseBarChart(parsedData)} />
-        ) : (
-          "Upload CSV"
-        )}
-        <h1>Overview Table</h1>
-        {textFromFile ? (
-          <TableView data={parseData(textFromFile)} />
-        ) : (
-          "Upload CSV"
-        )}
-      </header>
+      <ResponsiveAppBar setPage={setPage}/>
+        {body()}
     </div>
   );
 }
