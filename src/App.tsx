@@ -31,11 +31,13 @@ function App() {
     switch (page) {
       case "Upload":
         return (
-          <FileUploadButton
+
+        <FileUploadButton
             name={"UPLOAD CSV"}
             onChange={handleImageFileSelection}
-            text={"Upload CSV File"}
-          />
+            text={textFromFile? "Neues CSV Uploaden" : "Upload CSV File"}
+        />
+
         );
       case "Tabellen":
         return (
