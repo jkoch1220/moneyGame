@@ -8,6 +8,8 @@ import parseData from "./common/utils/parseData";
 import parseBarChart from "./common/utils/parseBarChart";
 import { Page, ParsedDataForm } from "./types";
 import ResponsiveAppBar from "./appBar/ResponsiveAppBar";
+import parseTransactionChart from "./common/utils/parseTransactionChart";
+import parseMetaCategory from "./common/utils/parseMetaCategory";
 
 function App() {
   const [textFromFile, setTextFromFile] = useState<string | undefined>();
@@ -31,18 +33,19 @@ function App() {
     switch (page) {
       case "Upload":
         return (
-
-        <FileUploadButton
-            name={"UPLOAD CSV"}
-            onChange={handleImageFileSelection}
-            text={textFromFile? "Neues CSV Uploaden" : "Upload CSV File"}
-        />
-
+          <>
+            <FileUploadButton
+              name={"UPLOAD CSV"}
+              onChange={handleImageFileSelection}
+              text={textFromFile ? "Neues CSV Uploaden" : "Upload CSV File"}
+            />
+            <p>{textFromFile}</p>
+          </>
         );
       case "Tabellen":
         return (
           <div>
-            <h1>Overview Table</h1>
+            <h1>Overview Tabelle</h1>
             {textFromFile ? (
               <TableView data={parseData(textFromFile)} />
             ) : (
@@ -53,7 +56,7 @@ function App() {
       case "Kategorien":
         return (
           <div>
-            <h1>Overview BarChart</h1>
+            <h1>Overview Kategorien</h1>
             {parsedData ? (
               <BarChart data={parseBarChart(parsedData)} />
             ) : (
@@ -62,16 +65,32 @@ function App() {
           </div>
         );
       case "Meta-Kategorien":
-        return <div>In Arbeit</div>;
+        return (
+            <div>
+              <h1>Overview Meta-Kategorien</h1>
+              {parsedData ? (
+                  <BarChart data={parseMetaCategory(parsedData)} />
+              ) : (
+                  "Upload CSV"
+              )}
+            </div>
+        );
       case "Zahlungsmittel":
-        return <div>In Arbeit</div>;
+        return ( <div>
+          <h1>Overview Zahlungsmittel</h1>
+          {parsedData ? (
+              <BarChart data={parseTransactionChart(parsedData)} />
+          ) : (
+              "Upload CSV"
+          )}
+        </div>)
     }
   };
 
   return (
     <div className="App">
-      <ResponsiveAppBar setPage={setPage}/>
-        {body()}
+      <ResponsiveAppBar fileUploadFlag={!!textFromFile} setPage={setPage} />
+      {body()}
     </div>
   );
 }

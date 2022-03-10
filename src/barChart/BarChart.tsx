@@ -7,10 +7,10 @@ import {
 } from "@devexpress/dx-react-chart-material-ui";
 import Paper from "@mui/material/Paper";
 import { ValueScale } from "@devexpress/dx-react-chart";
-import {BarChartElement} from "../types";
+import {BarChartElement, MetaCategoryChartElement, TransactionChartElement} from "../types";
 
 interface BarChartForm{
-  data: BarChartElement[]
+  data: BarChartElement[] | TransactionChartElement[] | MetaCategoryChartElement[]
 }
 
 export default (props: BarChartForm) =>  {
@@ -38,7 +38,7 @@ export default (props: BarChartForm) =>  {
           <BarSeries
               name="Units Sold"
               valueField="sale"
-              argumentField="categories"
+              argumentField={Object.keys(props.data[0])[0]}
               scaleName="sale"
               color="green"
           />

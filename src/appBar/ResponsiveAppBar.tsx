@@ -5,14 +5,19 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import {Dispatch, SetStateAction} from "react";
-import {Page} from "../types";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import CategoryIcon from "@mui/icons-material/Category";
+import ClassIcon from "@mui/icons-material/Class";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import { Dispatch, SetStateAction } from "react";
+import { Page } from "../types";
 
 const pages = [
   "Upload",
@@ -25,7 +30,8 @@ const pages = [
 const settings = ["Profile"];
 
 interface ResponsiveAppBarForm {
-  setPage: Dispatch<SetStateAction<Page>>
+  setPage: Dispatch<SetStateAction<Page>>;
+  fileUploadFlag: boolean;
 }
 
 const ResponsiveAppBar = (props: ResponsiveAppBarForm) => {
@@ -53,9 +59,34 @@ const ResponsiveAppBar = (props: ResponsiveAppBarForm) => {
 
   const handleMenu = (page: string) => {
     return () => {
-     props.setPage(page as Page)
+      props.setPage(page as Page);
+    };
+  };
+
+  const selectIcon = (page: Page) => {
+    switch (page) {
+      case "Upload":
+        return <FileUploadIcon />;
+      case "Tabellen":
+        return <TableChartIcon />;
+      case "Kategorien":
+        return <CategoryIcon />;
+      case "Meta-Kategorien":
+        return <ClassIcon />;
+      case "Zahlungsmittel":
+        return <PaymentsIcon />;
+      default:
+        return <></>;
     }
-  }
+  };
+
+  const selectColor = (page: Page, fileUploadFlag: boolean) => {
+    if (fileUploadFlag || page == "Upload") {
+      return "inherit";
+    } else {
+      return "primary";
+    }
+  };
 
   return (
     <AppBar position="static">
@@ -118,8 +149,11 @@ const ResponsiveAppBar = (props: ResponsiveAppBarForm) => {
             {pages.map((page) => (
               <Button
                 key={page}
+                color={selectColor(page as Page, props.fileUploadFlag)}
+                disabled={(selectColor(page as Page, props.fileUploadFlag) == 'primary')}
                 onClick={handleMenu(page)}
                 sx={{ my: 2, color: "white", display: "block" }}
+                endIcon={selectIcon(page as Page)}
               >
                 {page}
               </Button>

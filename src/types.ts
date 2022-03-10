@@ -12,6 +12,16 @@ export interface BarChartElement {
   sale: number;
 }
 
+export interface TransactionChartElement {
+  Transaction: string;
+  sale: number;
+}
+
+export interface MetaCategoryChartElement {
+  MetaCategory: string;
+  sale: number;
+}
+
 type Categorys =
   | "Transport"
   | "Essen"
