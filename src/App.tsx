@@ -29,6 +29,14 @@ function App() {
     }
   }, [textFromFile]);
 
+  const fullAmount = (parsedData?: ParsedDataForm[]) => {
+    let returnValue = 0;
+    parsedData?.map((value) => {
+      returnValue += Number(value.amount);
+    });
+    return returnValue;
+  };
+
   const body = () => {
     switch (page) {
       case "Upload":
@@ -39,7 +47,11 @@ function App() {
               onChange={handleImageFileSelection}
               text={textFromFile ? "Neues CSV Uploaden" : "Upload CSV File"}
             />
-            <p>{textFromFile}</p>
+            {textFromFile ? (
+              <h1>Gesamtausgaben: {fullAmount(parsedData)}</h1>
+            ) : (
+              <></>
+            )}
           </>
         );
       case "Tabellen":
@@ -66,24 +78,26 @@ function App() {
         );
       case "Meta-Kategorien":
         return (
-            <div>
-              <h1>Overview Meta-Kategorien</h1>
-              {parsedData ? (
-                  <BarChart data={parseMetaCategory(parsedData)} />
-              ) : (
-                  "Upload CSV"
-              )}
-            </div>
+          <div>
+            <h1>Overview Meta-Kategorien</h1>
+            {parsedData ? (
+              <BarChart data={parseMetaCategory(parsedData)} />
+            ) : (
+              "Upload CSV"
+            )}
+          </div>
         );
       case "Zahlungsmittel":
-        return ( <div>
-          <h1>Overview Zahlungsmittel</h1>
-          {parsedData ? (
+        return (
+          <div>
+            <h1>Overview Zahlungsmittel</h1>
+            {parsedData ? (
               <BarChart data={parseTransactionChart(parsedData)} />
-          ) : (
+            ) : (
               "Upload CSV"
-          )}
-        </div>)
+            )}
+          </div>
+        );
     }
   };
 
